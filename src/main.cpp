@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <vector>
 
 struct Task {
     int id;
@@ -8,11 +10,13 @@ struct Task {
 
 int main() {
 
-    Task t{1, "Buy groceries", false};
+    std::vector<Task> tasks{{1, "Meditate", false}, {2, "Stretch", true}, {3, "Read Book", false}};
 
-    std::cout << "ID: " << t.id << "\n";
-    std::cout << "Description: " << t.description << "\n";
-    std::cout << "Completed: " << t.completed << "\n";
+    for ( Task task : tasks) {
+        std::cout<<task.id<< ". " <<((task.completed) ? "[X]" : "[ ]") << " " << task.description << "\n";
+    }
+
+    
 
     std::cout << "\n=== Task Manager ===\n";
     std::cout << "1. Add task\n";
