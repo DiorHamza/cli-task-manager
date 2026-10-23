@@ -8,16 +8,18 @@ struct Task {
     bool completed;
 };
 
+void listTasks (const std::vector<Task>& tasks) {
+    for ( Task task : tasks) {
+        std::cout<<task.id<< ". " <<((task.completed) ? "[X]" : "[ ]") << " " << task.description << "\n";
+    }
+}
+
 int main() {
 
     std::vector<Task> tasks{{1, "Meditate", false}, {2, "Stretch", true}, {3, "Read Book", false}};
 
-    for ( Task task : tasks) {
-        std::cout<<task.id<< ". " <<((task.completed) ? "[X]" : "[ ]") << " " << task.description << "\n";
-    }
-
+    listTasks(tasks);
     
-
     std::cout << "\n=== Task Manager ===\n";
     std::cout << "1. Add task\n";
     std::cout << "2. List tasks\n";
