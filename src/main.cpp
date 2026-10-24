@@ -14,6 +14,24 @@ void listTasks (const std::vector<Task>& tasks) {
     }
 }
 
+void addTask (std::vector<Task>& tasks) {
+    std::cout<<"Enter the task to be added: " ;
+    std::string added_task{};
+    std::getline(std::cin, added_task);
+    int id = tasks.size() + 1;
+
+    if (added_task.empty()) {
+        std::cout<<"The added task cannot be empty, try again \n";
+        addTask(tasks);
+        return;
+    }
+
+    tasks.push_back({id, added_task, false});
+
+
+    std::cout<<"Task has been added \n";
+
+}
 
 
 int main() {
@@ -36,7 +54,7 @@ int main() {
         std::getline(std::cin, user_command);
 
         if (user_command == "1") {
-            // addTask function
+            addTask(tasks);
         }
 
         else if (user_command == "2") {
