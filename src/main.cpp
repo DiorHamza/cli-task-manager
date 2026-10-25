@@ -33,6 +33,37 @@ void addTask (std::vector<Task>& tasks) {
 
 }
 
+void completeTask (std::vector<Task>& tasks) {
+    std::cout<<"Enter the id of task completed: ";
+    int task_id{};
+    std::cin>>task_id;
+
+    if (std::cin.fail()) {
+        std::cout << "Not a valid number, try again \n";
+        std::cin.clear();
+        std::cin.ignore(10000, '\n');
+        completeTask(tasks);
+        return;
+    }
+
+    std::cin.ignore(10000, '\n');
+
+    if (task_id <= 0 || task_id > tasks.size()) {
+        std::cout << "Not a valid number, try again \n";
+        completeTask(tasks);
+        return;
+    }
+
+    for (Task& task : tasks) {
+        if (task.id == task_id) {
+            task.completed = true;
+        }
+    }
+
+    std::cout<<"Task marked as completed \n";
+    
+}
+
 
 int main() {
 
@@ -62,7 +93,7 @@ int main() {
         }
 
         else if (user_command == "3") {
-            // completeTask function
+            completeTask(tasks);
         }
 
         else if (user_command == "4") {
