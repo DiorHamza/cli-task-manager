@@ -34,6 +34,12 @@ void addTask (std::vector<Task>& tasks) {
 }
 
 void completeTask (std::vector<Task>& tasks) {
+
+    if (tasks.empty()) {
+        std::cout<<"No tasks to be completed \n";
+        return;
+    }
+
     std::cout<<"Enter the id of task completed: ";
     int task_id{};
     std::cin>>task_id;
@@ -62,6 +68,47 @@ void completeTask (std::vector<Task>& tasks) {
 
     std::cout<<"Task marked as completed \n";
     
+}
+
+void deleteTask (std::vector<Task>& tasks) {
+
+    if (tasks.empty()) {
+        std::cout<<"No tasks to be deleted \n";
+        return;
+    }
+
+    std::cout<<"Enter the id of task to be deleted: ";
+    int task_id{};
+    std::cin>>task_id;
+
+
+    if (std::cin.fail()) {
+        std::cout << "Not a valid number, try again \n";
+        std::cin.clear();
+        std::cin.ignore(10000, '\n');
+        deleteTask(tasks);
+        return;
+    }
+
+    std::cin.ignore(10000, '\n');
+
+    if (task_id <= 0 || task_id > tasks.size()) {
+        std::cout << "Not a valid id, try again \n";
+        deleteTask(tasks);
+        return;
+    }
+
+
+    for (Task& task : tasks) {
+        if (task.id > task_id) {
+            task.id -= 1;
+        }
+    }
+
+    tasks.erase(tasks.begin() + task_id - 1); 
+
+    std::cout<<"Task Deleted successfully \n";
+
 }
 
 
@@ -97,7 +144,7 @@ int main() {
         }
 
         else if (user_command == "4") {
-            // deleteTask function
+            deleteTask(tasks);
         }
 
         else if (user_command == "5") {
