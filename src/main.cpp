@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
-struct Task {
+struct Task {  
     int id;
     std::string description;
     bool completed;
@@ -111,6 +112,15 @@ void deleteTask (std::vector<Task>& tasks) {
 
 }
 
+void saveTasks(const std::vector<Task>& tasks) {
+    std::ofstream outFile("tasks.txt");
+
+    for (const Task& task : tasks) {
+        outFile << task.id<< "|" <<((task.completed) ? "1" : "0") << "|" << task.description << "\n";
+    }
+    
+}
+
 
 int main() {
 
@@ -148,6 +158,7 @@ int main() {
         }
 
         else if (user_command == "5") {
+            saveTasks(tasks);
             break;
         }
         else {std::cout << "Invalid Command, Enter Again \n";}
