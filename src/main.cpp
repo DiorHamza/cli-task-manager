@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <sstream>
 
 struct Task {  
     int id;
@@ -10,6 +11,12 @@ struct Task {
 };
 
 void listTasks (const std::vector<Task>& tasks) {
+
+    if (tasks.empty()) {
+        std::cout<<"No tasks currently listed \n";
+        return;
+    }
+
     for (const Task& task : tasks) {
         std::cout<< task.id<< ". " <<((task.completed) ? "[X]" : "[ ]") << " " << task.description << "\n";
     }
@@ -121,10 +128,47 @@ void saveTasks(const std::vector<Task>& tasks) {
     
 }
 
+void loadTasks(std::vector<Task>& tasks) {
+    std::ifstream file("tasks.txt");
+
+    if (!file.is_open()) {
+        return;
+    }
+
+    std::string line;
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+
+        std::string id_text{};
+        std::string completed_text{};
+        std::string description{};
+
+        std::getline(ss, id_text, '|');
+        std::getline(ss, completed_text, '|');
+        std::getline(ss, description);
+
+        int id{};
+        try {
+            id = std::stoi(id_text);
+        }
+        catch (const std::exception&) {
+            continue;
+        }
+
+        bool completed{(completed_text == "1")};
+    
+        tasks.push_back({id, description, completed});
+
+    }
+        
+}
+
 
 int main() {
 
-    std::vector<Task> tasks{{1, "Meditate", false}, {2, "Stretch", true}, {3, "Read Book", false}};
+    std::vector<Task> tasks{};
+
+    loadTasks(tasks);
 
     std::string user_command{};
 
