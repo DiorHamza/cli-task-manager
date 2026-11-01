@@ -25,8 +25,12 @@ void listTasks (const std::vector<Task>& tasks) {
 void addTask (std::vector<Task>& tasks) {
     std::cout<<"Enter the task to be added: " ;
     std::string added_task{};
-    std::getline(std::cin, added_task);
-    int id = tasks.size() + 1;
+
+    if (!std::getline(std::cin, added_task)) {
+        return;
+    }
+
+    int id = static_cast<int>(tasks.size() + 1);
 
     if (added_task.empty()) {
         std::cout<<"The added task cannot be empty, try again \n";
@@ -62,7 +66,7 @@ void completeTask (std::vector<Task>& tasks) {
 
     std::cin.ignore(10000, '\n');
 
-    if (task_id <= 0 || task_id > tasks.size()) {
+    if (task_id <= 0 || task_id > static_cast<int>(tasks.size())) {
         std::cout << "Not a valid number, try again \n";
         completeTask(tasks);
         return;
@@ -100,7 +104,7 @@ void deleteTask (std::vector<Task>& tasks) {
 
     std::cin.ignore(10000, '\n');
 
-    if (task_id <= 0 || task_id > tasks.size()) {
+    if (task_id <= 0 || task_id > static_cast<int>(tasks.size())) {
         std::cout << "Not a valid id, try again \n";
         deleteTask(tasks);
         return;
@@ -121,6 +125,11 @@ void deleteTask (std::vector<Task>& tasks) {
 
 void saveTasks(const std::vector<Task>& tasks) {
     std::ofstream outFile("tasks.txt");
+
+    if (!outFile.is_open()) {
+        std::cout << "Error: could not save tasks to tasks.txt \n";
+        return;
+    }
 
     for (const Task& task : tasks) {
         outFile << task.id<< "|" <<((task.completed) ? "1" : "0") << "|" << task.description << "\n";
@@ -183,10 +192,13 @@ int main() {
 
         std::cout << "Enter a choice: ";
 
-        std::getline(std::cin, user_command);
+        if (!std::getline(std::cin, user_command)) {
+            break;
+        };
 
         if (user_command == "1") {
             addTask(tasks);
+            saveTasks(tasks);
         }
 
         else if (user_command == "2") {
@@ -195,14 +207,15 @@ int main() {
 
         else if (user_command == "3") {
             completeTask(tasks);
+            saveTasks(tasks);
         }
 
         else if (user_command == "4") {
             deleteTask(tasks);
+            saveTasks(tasks);
         }
 
         else if (user_command == "5") {
-            saveTasks(tasks);
             break;
         }
         else {std::cout << "Invalid Command, Enter Again \n";}
