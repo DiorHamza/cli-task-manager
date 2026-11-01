@@ -169,7 +169,6 @@ void loadTasks(std::vector<Task>& tasks) {
         tasks.push_back({id, description, completed});
 
     }
-        
 }
 
 
@@ -221,7 +220,6 @@ int main() {
         else {std::cout << "Invalid Command, Enter Again \n";}
 
     }
-
 
 
     return 0;
