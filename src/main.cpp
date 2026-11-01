@@ -23,10 +23,15 @@ void listTasks (const std::vector<Task>& tasks) {
 }
 
 void addTask (std::vector<Task>& tasks) {
-    std::cout<<"Enter the task to be added: " ;
+    std::cout<<"Enter the task to be added: (press Enter to abort) " ;
     std::string added_task{};
 
     if (!std::getline(std::cin, added_task)) {
+        return;
+    }
+
+    if (added_task.empty()) {
+        std::cout<<"Aborted \n";
         return;
     }
 
@@ -52,7 +57,7 @@ void completeTask (std::vector<Task>& tasks) {
         return;
     }
 
-    std::cout<<"Enter the id of task completed: ";
+    std::cout<<"Enter the id of task completed: (press 0 to abort) ";
     int task_id{};
     std::cin>>task_id;
 
@@ -65,6 +70,11 @@ void completeTask (std::vector<Task>& tasks) {
     }
 
     std::cin.ignore(10000, '\n');
+
+    if (task_id == 0) {                                                  
+        std::cout << "Aborted \n";
+        return;
+    }
 
     if (task_id <= 0 || task_id > static_cast<int>(tasks.size())) {
         std::cout << "Not a valid number, try again \n";
@@ -89,7 +99,7 @@ void deleteTask (std::vector<Task>& tasks) {
         return;
     }
 
-    std::cout<<"Enter the id of task to be deleted: ";
+    std::cout<<"Enter the id of task to be deleted: (press 0 to abort) ";
     int task_id{};
     std::cin>>task_id;
 
@@ -103,6 +113,11 @@ void deleteTask (std::vector<Task>& tasks) {
     }
 
     std::cin.ignore(10000, '\n');
+
+    if (task_id == 0) {                                                  
+        std::cout << "Aborted \n";
+        return;
+    }
 
     if (task_id <= 0 || task_id > static_cast<int>(tasks.size())) {
         std::cout << "Not a valid id, try again \n";
@@ -193,7 +208,7 @@ int main() {
 
         if (!std::getline(std::cin, user_command)) {
             break;
-        };
+        }
 
         if (user_command == "1") {
             addTask(tasks);
